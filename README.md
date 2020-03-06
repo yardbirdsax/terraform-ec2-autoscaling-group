@@ -7,7 +7,9 @@ This is a [Terraform](https://terraform.io) module that will provision one or mo
 | Variable Name         | Description                                                                   |
 ------------------------|-------------------------------------------------------------------------------|
 | aws_region            | The AWS Region where resources will be deployed. Defaults to 'us-east-2'.     |
-| instance_count        | The number of EC2 instances to provision.                                     |
+| min_instance_count    | The minimum number of EC2 instances to provision.                             |
+| max_instance_count    | The maximum number of EC2 instances to provision.                             |
+| desired_instance_count | The desired number of EC2 instances to provision.                            |
 | keypair_path          | The path to the SSH public key file that will be used for access to the instance. |
 | deployment_name       | A unique name used to generate things like the instance name.                 |
 | iam_role_name         | The name of an existing IAM role to assign to the instance profile. If left blank, no role will be assigned. |

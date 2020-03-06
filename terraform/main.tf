@@ -24,8 +24,11 @@ resource aws_iam_instance_profile instance_profile {
 }
 
 resource aws_launch_template launch_template {
-  iam_instance_profile {
-    arn = var.iam_role_name == "" ? "" : aws_iam_instance_profile.instance_profile[0].arn
+  dynamic "iam_instance_profile" {
+    for_each = var.iam_role_name == "" ? [] : [ var.iam_role_name ]
+    content {
+      name = var.iam_role_name
+    }
   }
   vpc_security_group_ids = var.security_group_ids
   image_id = data.aws_ami.ubuntu.image_id
