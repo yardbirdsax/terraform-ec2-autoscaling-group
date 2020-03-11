@@ -41,13 +41,25 @@ resource aws_security_group security_group {
   }
 }
 
+module "ssh_key_pair" {
+  source                = "git::https://github.com/cloudposse/terraform-aws-key-pair.git?ref=master"
+  namespace             = "eg"
+  stage                 = "prod"
+  name                  = "app"
+  ssh_public_key_path   = "~/.ssh"
+  generate_ssh_key      = "true"
+  private_key_extension = ".pem"
+  public_key_extension  = ".pub"
+}
+
 module ec2 {
   #source = "../../terraform"
-  source = "git::https://github.com/yardbirdsax/terraform-ec2-autoscaling-group//terraform?ref=1.1"
+  source = "git::https://github.com/yardbirdsax/terraform-ec2-autoscaling-group//terraform?ref=1.2"
   max_instance_count = 6
   min_instance_count = 4
   desired_instance_count = 4
   subnet_ids = aws_subnet.subnet.*.id
   security_group_ids = [aws_security_group.security_group.id]
   deployment_name = "my-ec2"
+  keypair_content = module.ssh_key_pair.public_key
 }

@@ -26,6 +26,12 @@ variable keypair_path {
     default = "~/.ssh/id_rsa.pub"
 }
 
+variable keypair_content {
+    type = string
+    default = ""
+    description = "The content that will be used to create the SSH keypair in AWS. If specified will ignore the value of the `keypair_path` variable."
+}
+
 variable deployment_name {
     type = string
     description = "A unique name used to generate other names for resources, such as instance names."

@@ -12,9 +12,13 @@ data aws_ami "ubuntu" {
   owners = ["099720109477"]
 }
 
+locals {
+  public_key_content = var.keypair_content == "" ? file(var.keypair_path) : var.keypair_content
+}
+
 resource aws_key_pair k3s_keypair {
   key_name = var.deployment_name
-  public_key = file(var.keypair_path)
+  public_key = local.public_key_content
 }
 
 resource aws_iam_instance_profile instance_profile {
